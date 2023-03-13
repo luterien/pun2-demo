@@ -16,4 +16,5 @@ MonoBehaviour:
   abilityIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   cooldown: 5
   effectPrefab: {fileID: 6150991686071171062, guid: e36c8ae96f0ff6143acc3d519a9fdb30, type: 3}
+  damage: 10
   tags: 01000000

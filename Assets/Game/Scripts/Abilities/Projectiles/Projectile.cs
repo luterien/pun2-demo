@@ -2,13 +2,15 @@
 using System.Collections;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour, IAbilityEffect
+public class Projectile : MonoBehaviour, IAbilityEffect, IPunObservable
 {
     public float projectileSpeed = 5f;
 
     public Vector3 Direction { get; set; }
     public PlayerController PlayerController { get; set; }
     public AbilityAsset AbilityAsset { get; set; }
+
+    private bool _canBeDestroyed;
 
     public void Setup(PlayerController playerController, AbilityAsset abilityAsset, Vector3 direction)
     {
@@ -25,26 +27,41 @@ public class Projectile : MonoBehaviour, IAbilityEffect
     private void Update()
     {
         transform.position += Direction * Time.deltaTime * projectileSpeed;
-    }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        Debug.LogError("OnTriggerEnter");
-
-        if (other.TryGetComponent(out IDamageable damageable))
+        if (_canBeDestroyed && PlayerController.PhotonView.IsMine)
         {
-            damageable.ApplyDamage(AbilityAsset.damage);
+            _canBeDestroyed = false;
+
             PhotonNetwork.Destroy(gameObject);
-        }
-        else
-        {
-            Debug.LogError("OnTriggerEnter TryGetComponent Failed");
         }
     }
 
     private IEnumerator DestroyWithDelay()
     {
         yield return new WaitForSeconds(3f);
-        PhotonNetwork.Destroy(gameObject);
+
+        _canBeDestroyed = true;
+    }
+
+    public void TriggerDamage(IDamageable damageable)
+    {
+        var baseDamage = 20f;
+        var damage = Random.Range(baseDamage * 0.8f, baseDamage * 1.2f);
+
+        damageable.ApplyDamage(damage);
+
+        _canBeDestroyed = true;
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(_canBeDestroyed);
+        }
+        else
+        {
+            _canBeDestroyed = (bool)stream.ReceiveNext();
+        }
     }
 }

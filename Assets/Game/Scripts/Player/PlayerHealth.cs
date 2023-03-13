@@ -7,6 +7,8 @@ public class PlayerHealth
     public float MaxHealth { get; private set; }
     public float CurrentHealth { get; private set; }
 
+    public float HealthPercentage => CurrentHealth / MaxHealth;
+
     public PlayerHealth(float maxHealth)
     {
         MaxHealth = maxHealth;
@@ -22,6 +24,10 @@ public class PlayerHealth
         }
 
         CurrentHealth -= damage;
-        Debug.LogError("Damage taken " + damage + " HP: " + CurrentHealth);
+    }
+
+    public void SetHealth(float amount)
+    {
+        CurrentHealth = amount;
     }
 }

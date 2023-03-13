@@ -8,4 +8,5 @@ public interface IAbilityEffect
     AbilityAsset AbilityAsset { get; set; }
 
     void Setup(PlayerController playerController, AbilityAsset abilityAsset, Vector3 right);
+    void TriggerDamage(IDamageable damageable);
 }

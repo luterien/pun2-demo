@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour, IPunObservable, IDamageable
     public static event Action<PlayerController> OnLocalPlayerCreated;
 
     public PhotonView PhotonView => photonView;
+    public PlayerHealth PlayerHealth => playerHealth;
 
     [Header("Dependencies")]
     public PlayerModel playerModelComponent;
@@ -52,13 +53,18 @@ public class PlayerController : MonoBehaviour, IPunObservable, IDamageable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
+        if (playerHealth == null)
+        {
+            return;
+        }
+
         if (stream.IsWriting)
         {
-
+            stream.SendNext(playerHealth.CurrentHealth);
         }
         else
         {
-
+            playerHealth.SetHealth((float)stream.ReceiveNext());
         }
     }
 
@@ -104,5 +110,18 @@ public class PlayerController : MonoBehaviour, IPunObservable, IDamageable
         abilityRequested = true;
 
         return true;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!PhotonView.IsMine)
+        {
+            return;
+        }
+
+        if (other.TryGetComponent(out IAbilityEffect abilityEffect))
+        {
+            abilityEffect.TriggerDamage(this);
+        }
     }
 }
