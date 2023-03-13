@@ -27,11 +27,18 @@ public class Projectile : MonoBehaviour, IAbilityEffect
         transform.position += Direction * Time.deltaTime * projectileSpeed;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.LogError("OnTriggerEnter");
+
         if (other.TryGetComponent(out IDamageable damageable))
         {
             damageable.ApplyDamage(AbilityAsset.damage);
+            PhotonNetwork.Destroy(gameObject);
+        }
+        else
+        {
+            Debug.LogError("OnTriggerEnter TryGetComponent Failed");
         }
     }
 

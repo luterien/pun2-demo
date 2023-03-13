@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+[System.Serializable]
 public class PlayerHealth
 {
     public float MaxHealth { get; private set; }
@@ -21,5 +22,6 @@ public class PlayerHealth
         }
 
         CurrentHealth -= damage;
+        Debug.LogError("Damage taken " + damage + " HP: " + CurrentHealth);
     }
 }

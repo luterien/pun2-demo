@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3219715984604237411}
   - component: {fileID: -809625702268013422}
   - component: {fileID: -7888915472107579246}
+  - component: {fileID: 3892998899558229650}
   m_Layer: 0
   m_Name: BallPrefab
   m_TagString: Untagged
@@ -87,6 +88,22 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!58 &3892998899558229650
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6150991686071171062}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.03
 --- !u!1 &6150991686080752605
 GameObject:
   m_ObjectHideFlags: 0
