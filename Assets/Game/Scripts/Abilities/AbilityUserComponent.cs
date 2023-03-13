@@ -22,9 +22,7 @@ public class AbilityUserComponent : MonoBehaviour
 
         if (effect.TryGetComponent(out IAbilityEffect abilityEffect))
         {
-            abilityEffect.Direction = Vector3.right;
-            abilityEffect.PlayerController = _playerController;
-            abilityEffect.AbilityAsset = abilityAsset;
+            abilityEffect.Setup(_playerController, abilityAsset, Vector3.right);
         }
     }
 }

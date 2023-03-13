@@ -10,8 +10,12 @@ public class Projectile : MonoBehaviour, IAbilityEffect
     public PlayerController PlayerController { get; set; }
     public AbilityAsset AbilityAsset { get; set; }
 
-    private void Start()
+    public void Setup(PlayerController playerController, AbilityAsset abilityAsset, Vector3 direction)
     {
+        PlayerController = playerController;
+        Direction = direction;
+        AbilityAsset = abilityAsset;
+
         if (PlayerController.PhotonView.IsMine)
         {
             StartCoroutine(DestroyWithDelay());

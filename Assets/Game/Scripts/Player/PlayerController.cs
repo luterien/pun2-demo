@@ -36,24 +36,18 @@ public class PlayerController : MonoBehaviour, IPunObservable, IDamageable
 
     private void Start()
     {
-        if (photonView.IsMine)
-        {
-            playerModelComponent.Initialize();
+        playerModelComponent.Initialize(PhotonView.IsMine);
 
-            inputController = new PlayerInputController();
-            playerHealth = new PlayerHealth(100f);
-        }
+        inputController = new PlayerInputController();
+        playerHealth = new PlayerHealth(100f);
     }
 
     private void Update()
     {
-        if (photonView.IsMine)
-        {
-            inputController.Tick(Time.deltaTime);
+        inputController.Tick(Time.deltaTime);
 
-            CheckForAbilityUseRequest();
-            ApplyMovement();
-        }
+        CheckForAbilityUseRequest();
+        ApplyMovement();
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

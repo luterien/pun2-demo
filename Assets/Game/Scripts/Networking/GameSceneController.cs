@@ -13,11 +13,20 @@ public class GameSceneController : MonoBehaviourPunCallbacks
 
     private PlayerController _playerController;
 
+    private bool _checkForAISpawn;
+    private Coroutine _checkForAISpawnTimerCoroutine;
+
     private void Awake()
     {
         if (!PhotonNetwork.IsConnected || !PhotonNetwork.InRoom)
         {
             ReturnToMainMenu();
+        }
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            _checkForAISpawn = true;
+            _checkForAISpawnTimerCoroutine = StartCoroutine(CheckForAISpawn());
         }
     }
 
@@ -28,19 +37,14 @@ public class GameSceneController : MonoBehaviourPunCallbacks
             var player = PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity, 0);
             _playerController = player.GetComponent<PlayerController>();
 
-            abilitySlotManager.Initialize(_playerController);
-
             DontDestroyOnLoad(player);
         }
-        else
+        else if (_playerController == null)
         {
-            if (_playerController == null)
-            {
-                _playerController = LocalPlayerInstance.GetComponent<PlayerController>();
-            }
-
-            abilitySlotManager.Initialize(_playerController);
+            _playerController = LocalPlayerInstance.GetComponent<PlayerController>();
         }
+
+        abilitySlotManager.Initialize(_playerController);
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -55,6 +59,12 @@ public class GameSceneController : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        if (_checkForAISpawn && _checkForAISpawnTimerCoroutine != null)
+        {
+            _checkForAISpawn = false;
+            StopCoroutine(_checkForAISpawnTimerCoroutine);
+        }
+
         AdjustPlayerNumbers();
     }
 
@@ -70,5 +80,14 @@ public class GameSceneController : MonoBehaviourPunCallbacks
             Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
             PhotonNetwork.LoadLevel("Arena");
         }
+    }
+
+    private IEnumerator CheckForAISpawn()
+    {
+        yield return new WaitForSeconds(5f);
+
+        _checkForAISpawn = false;
+
+        Debug.Log("Spawn AI");
     }
 }
