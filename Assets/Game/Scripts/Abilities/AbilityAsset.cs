@@ -12,6 +12,9 @@ public class AbilityAsset : ScriptableObject
     public int cooldown;
     public GameObject effectPrefab;
 
+    [Header("Damage Settings")]
+    public float damage;
+
     [Space(5)]
     public List<AbilityTag> tags;
 }

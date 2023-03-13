@@ -159,6 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 572607942090410119, guid: d0d4bbf7482fc09419d7b012bd4ca8c5, type: 3}
+  abilitySlotManager: {fileID: 305353278}
 --- !u!4 &305353277
 Transform:
   m_ObjectHideFlags: 0

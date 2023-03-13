@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 
 public class GameSceneController : MonoBehaviourPunCallbacks
 {
     public GameObject playerPrefab;
+    public AbilitySlotManager abilitySlotManager;
 
     public static GameObject LocalPlayerInstance;
+
+    private PlayerController _playerController;
 
     private void Awake()
     {
@@ -22,7 +26,20 @@ public class GameSceneController : MonoBehaviourPunCallbacks
         if (LocalPlayerInstance == null)
         {
             var player = PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity, 0);
+            _playerController = player.GetComponent<PlayerController>();
+
+            abilitySlotManager.Initialize(_playerController);
+
             DontDestroyOnLoad(player);
+        }
+        else
+        {
+            if (_playerController == null)
+            {
+                _playerController = LocalPlayerInstance.GetComponent<PlayerController>();
+            }
+
+            abilitySlotManager.Initialize(_playerController);
         }
     }
 
@@ -33,7 +50,7 @@ public class GameSceneController : MonoBehaviourPunCallbacks
 
     private void ReturnToMainMenu()
     {
-        Debug.Log("Disconnected");
+        SceneManager.LoadScene("MainMenu");
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)

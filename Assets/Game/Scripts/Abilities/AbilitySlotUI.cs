@@ -46,6 +46,8 @@ public class AbilitySlotUI : MonoBehaviour
 
     public void OnAbilityClick()
     {
+        Debug.Log("OnAbilityClick");
+
         if (!AbilityOnCooldown && PlayerController.TryUseAbility(abilityAsset))
         {
             AbilityOnCooldown = true;

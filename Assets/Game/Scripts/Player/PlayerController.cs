@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour, IPunObservable, IDamageable
 {
     public static event Action<PlayerController> OnLocalPlayerCreated;
 
+    public PhotonView PhotonView => photonView;
+
     [Header("Dependencies")]
     public PlayerModel playerModelComponent;
     public AbilityUserComponent abilityUserComponent;
@@ -40,8 +42,6 @@ public class PlayerController : MonoBehaviour, IPunObservable, IDamageable
 
             inputController = new PlayerInputController();
             playerHealth = new PlayerHealth(100f);
-
-            OnLocalPlayerCreated?.Invoke(this);
         }
     }
 
@@ -50,7 +50,6 @@ public class PlayerController : MonoBehaviour, IPunObservable, IDamageable
         if (photonView.IsMine)
         {
             inputController.Tick(Time.deltaTime);
-            abilityUserComponent.Tick(Time.deltaTime);
 
             CheckForAbilityUseRequest();
             ApplyMovement();
@@ -59,7 +58,14 @@ public class PlayerController : MonoBehaviour, IPunObservable, IDamageable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        
+        if (stream.IsWriting)
+        {
+
+        }
+        else
+        {
+
+        }
     }
 
     private void CheckForAbilityUseRequest()
