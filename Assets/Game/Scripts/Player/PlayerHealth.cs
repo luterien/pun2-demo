@@ -15,15 +15,16 @@ public class PlayerHealth
         CurrentHealth = maxHealth;
     }
 
-    public void ApplyDamage(float damage)
+    public bool ApplyDamage(float damage)
     {
         if (damage > CurrentHealth)
         {
             CurrentHealth = 0f;
-            return;
+            return true;
         }
 
         CurrentHealth -= damage;
+        return false;
     }
 
     public void SetHealth(float amount)

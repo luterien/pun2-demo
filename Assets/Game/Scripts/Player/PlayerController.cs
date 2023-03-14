@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour, IPunObservable, IDamageable
 {
-    public static event Action<PlayerController> OnLocalPlayerCreated;
+    public event Action<PlayerController> OnPlayerKilled;
 
     public PhotonView PhotonView => photonView;
     public PlayerHealth PlayerHealth => playerHealth;
@@ -96,7 +96,12 @@ public class PlayerController : MonoBehaviour, IPunObservable, IDamageable
 
     public void ApplyDamage(float damage)
     {
-        playerHealth.ApplyDamage(damage);
+        var isDead = playerHealth.ApplyDamage(damage);
+
+        if (isDead)
+        {
+            OnPlayerKilled?.Invoke(this);
+        }
     }
 
     public bool TryUseAbility(AbilityAsset abilityAsset)

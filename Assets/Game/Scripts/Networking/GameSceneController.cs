@@ -7,6 +7,8 @@ using Photon.Realtime;
 public class GameSceneController : MonoBehaviourPunCallbacks
 {
     public GameObject playerPrefab;
+    public GameObject aiPrefab;
+
     public AbilitySlotManager abilitySlotManager;
 
     public static GameObject LocalPlayerInstance;
@@ -36,12 +38,14 @@ public class GameSceneController : MonoBehaviourPunCallbacks
         {
             var player = PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity, 0);
             _playerController = player.GetComponent<PlayerController>();
+            _playerController.OnPlayerKilled += HandlePlayerKilled;
 
             DontDestroyOnLoad(player);
         }
         else if (_playerController == null)
         {
             _playerController = LocalPlayerInstance.GetComponent<PlayerController>();
+            _playerController.OnPlayerKilled += HandlePlayerKilled;
         }
 
         abilitySlotManager.Initialize(_playerController);
@@ -65,19 +69,18 @@ public class GameSceneController : MonoBehaviourPunCallbacks
             StopCoroutine(_checkForAISpawnTimerCoroutine);
         }
 
-        AdjustPlayerNumbers();
+        OnPlayersUpdated();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        AdjustPlayerNumbers();
+        OnPlayersUpdated();
     }
 
-    private void AdjustPlayerNumbers()
+    private void OnPlayersUpdated()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
             PhotonNetwork.LoadLevel("Arena");
         }
     }
@@ -88,6 +91,14 @@ public class GameSceneController : MonoBehaviourPunCallbacks
 
         _checkForAISpawn = false;
 
-        Debug.Log("Spawn AI");
+        Debug.Log("Spawn enemy AI");
+    }
+
+    private void HandlePlayerKilled(PlayerController playerController)
+    {
+        _playerController.OnPlayerKilled -= HandlePlayerKilled;
+
+        PhotonNetwork.LeaveRoom();
+        ReturnToMainMenu();
     }
 }

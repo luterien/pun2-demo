@@ -191,6 +191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 572607942090410119, guid: d0d4bbf7482fc09419d7b012bd4ca8c5, type: 3}
+  aiPrefab: {fileID: 0}
   abilitySlotManager: {fileID: 305353278}
 --- !u!4 &305353277
 Transform:
@@ -343,6 +344,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AbilitySlotUI (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3902253903154970238, guid: ec1fef516714f954baf38f09da1aa873, type: 3}
+      propertyPath: abilityAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: fe03e9e58a4504c4fb839ee6af9d12aa, type: 2}
     - target: {fileID: 3902253903154970239, guid: ec1fef516714f954baf38f09da1aa873, type: 3}
       propertyPath: m_Pivot.x
       value: 1

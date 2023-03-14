@@ -12,14 +12,27 @@ public class Projectile : MonoBehaviour, IAbilityEffect, IPunObservable
     private bool _canBeDestroyed = false; 
     private bool _isMine = false;
 
+    private PhotonView PhotonView
+    {
+        get
+        {
+            if (photonView == null)
+            {
+                photonView = GetComponent<PhotonView>();
+            }
+
+            return photonView;
+        }
+    }
+    private PhotonView photonView;
+
     public void Setup(PlayerController playerController, AbilityAsset abilityAsset, Vector3 direction)
     {
         if (playerController.PhotonView.IsMine)
         {
             _isMine = true;
 
-            var photonView = GetComponent<PhotonView>();
-            photonView.RPC("SetupProjectile", RpcTarget.Others, abilityAsset.id, direction);
+            PhotonView.RPC("SetupProjectile", RpcTarget.Others, abilityAsset.id, direction);
 
             SetupProjectile(abilityAsset.id, direction);
 
@@ -60,7 +73,7 @@ public class Projectile : MonoBehaviour, IAbilityEffect, IPunObservable
 
         damageable.ApplyDamage(damage);
 
-        _canBeDestroyed = true;
+        PhotonView.RPC("SetCanBeDestroyed", RpcTarget.All);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -73,5 +86,11 @@ public class Projectile : MonoBehaviour, IAbilityEffect, IPunObservable
         {
             _canBeDestroyed = (bool)stream.ReceiveNext();
         }
+    }
+
+    [PunRPC]
+    private void SetCanBeDestroyed()
+    {
+        _canBeDestroyed = true;
     }
 }
