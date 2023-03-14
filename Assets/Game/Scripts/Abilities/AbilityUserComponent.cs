@@ -11,18 +11,30 @@ public class AbilityUserComponent : MonoBehaviour
 
     private PlayerController _playerController;
 
+    private IAbility _ability;
+
     private void Awake()
     {
         _playerController = GetComponent<PlayerController>();
     }
 
+    private void Update()
+    {
+        if (_ability != null)
+        {
+            _ability.Tick(Time.deltaTime);
+
+            if (_ability.IsComplete)
+            {
+                _ability.OnExit();
+                _ability = null;
+            }
+        }
+    }
+
     public void UseAbility(AbilityAsset abilityAsset)
     {
-        var effect = PhotonNetwork.Instantiate(abilityAsset.effectPrefab.name, projectileSpawnPoint.position, Quaternion.identity);
-
-        if (effect.TryGetComponent(out IAbilityEffect abilityEffect))
-        {
-            abilityEffect.Setup(_playerController, abilityAsset, Vector3.right);
-        }
+        _ability = abilityAsset.GetAbility(_playerController, projectileSpawnPoint);
+        _ability.OnEnter();
     }
 }

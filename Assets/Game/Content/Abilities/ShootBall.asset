@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df0b7a2eaf25de64695cc5c4f8043867, type: 3}
   m_Name: ShootBall
   m_EditorClassIdentifier: 
+  id: 1
   abilityName: Shoot Ball
   abilityIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   cooldown: 5

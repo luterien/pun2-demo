@@ -45,6 +45,11 @@ public class PlayerController : MonoBehaviour, IPunObservable, IDamageable
 
     private void Update()
     {
+        if (!PhotonView.IsMine)
+        {
+            return;
+        }
+
         inputController.Tick(Time.deltaTime);
 
         CheckForAbilityUseRequest();

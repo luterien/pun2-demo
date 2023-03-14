@@ -4,6 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Game/Abilities/Create New")]
 public class AbilityAsset : ScriptableObject
 {
+    public int id;
+
     [Header("Basic Settings")]
     public string abilityName;
     public Sprite abilityIcon;
@@ -17,4 +19,9 @@ public class AbilityAsset : ScriptableObject
 
     [Space(5)]
     public List<AbilityTag> tags;
+
+    public IAbility GetAbility(PlayerController playerController, Transform spawnPoint)
+    {
+        return new ProjectileAbility(playerController, this, spawnPoint);
+    }
 }

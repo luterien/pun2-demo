@@ -7,28 +7,38 @@ public class Projectile : MonoBehaviour, IAbilityEffect, IPunObservable
     public float projectileSpeed = 5f;
 
     public Vector3 Direction { get; set; }
-    public PlayerController PlayerController { get; set; }
     public AbilityAsset AbilityAsset { get; set; }
 
-    private bool _canBeDestroyed;
+    private bool _canBeDestroyed = false; 
+    private bool _isMine = false;
 
     public void Setup(PlayerController playerController, AbilityAsset abilityAsset, Vector3 direction)
     {
-        PlayerController = playerController;
-        Direction = direction;
-        AbilityAsset = abilityAsset;
-
-        if (PlayerController.PhotonView.IsMine)
+        if (playerController.PhotonView.IsMine)
         {
+            _isMine = true;
+
+            var photonView = GetComponent<PhotonView>();
+            photonView.RPC("SetupProjectile", RpcTarget.Others, abilityAsset.id, direction);
+
+            SetupProjectile(abilityAsset.id, direction);
+
             StartCoroutine(DestroyWithDelay());
         }
+    }
+
+    [PunRPC]
+    private void SetupProjectile(int abilityID, Vector3 direction)
+    {
+        Direction = direction;
+        AbilityAsset = AbilityDatabase.Instance.GetAbilityAsset(abilityID);
     }
 
     private void Update()
     {
         transform.position += Direction * Time.deltaTime * projectileSpeed;
 
-        if (_canBeDestroyed && PlayerController.PhotonView.IsMine)
+        if (_canBeDestroyed && _isMine)
         {
             _canBeDestroyed = false;
 
@@ -45,7 +55,7 @@ public class Projectile : MonoBehaviour, IAbilityEffect, IPunObservable
 
     public void TriggerDamage(IDamageable damageable)
     {
-        var baseDamage = 20f;
+        var baseDamage = AbilityAsset.damage;
         var damage = Random.Range(baseDamage * 0.8f, baseDamage * 1.2f);
 
         damageable.ApplyDamage(damage);
