@@ -123,10 +123,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 572607942090410118}
-  - component: {fileID: 572607942090410116}
   - component: {fileID: 306263766370801339}
   - component: {fileID: 572607942090410117}
   - component: {fileID: -2956779806256749758}
+  - component: {fileID: 572607942090410116}
   - component: {fileID: 755185946940546618}
   - component: {fileID: 2893108680491526730}
   m_Layer: 0
@@ -154,21 +154,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &572607942090410116
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 572607942090410119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5309997aeaffe0c4488068fe678ba9e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerModelComponent: {fileID: 4509081703905222328}
-  abilityUserComponent: {fileID: 306263766370801339}
-  projectileSpawnPoint: {fileID: 6860641815155152812}
 --- !u!114 &306263766370801339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,8 +186,8 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 572607942090410116}
   - {fileID: -2956779806256749758}
+  - {fileID: 572607942090410116}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -222,6 +207,21 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &572607942090410116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572607942090410119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5309997aeaffe0c4488068fe678ba9e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerModelComponent: {fileID: 4509081703905222328}
+  abilityUserComponent: {fileID: 306263766370801339}
+  projectileSpawnPoint: {fileID: 6860641815155152812}
 --- !u!61 &755185946940546618
 BoxCollider2D:
   m_ObjectHideFlags: 0
