@@ -123,10 +123,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 572607942090410118}
-  - component: {fileID: 306263766370801339}
   - component: {fileID: 572607942090410117}
   - component: {fileID: -2956779806256749758}
   - component: {fileID: 572607942090410116}
+  - component: {fileID: 306263766370801339}
   - component: {fileID: 755185946940546618}
   - component: {fileID: 2893108680491526730}
   m_Layer: 0
@@ -150,23 +150,11 @@ Transform:
   m_Children:
   - {fileID: 572607941166161350}
   - {fileID: 6860641815155152812}
+  - {fileID: 1336242787225293188}
   - {fileID: 6953447524937871209}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &306263766370801339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 572607942090410119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3665019625f2b5541827d1f042ca2fdc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectileSpawnPoint: {fileID: 6860641815155152812}
 --- !u!114 &572607942090410117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,9 +207,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5309997aeaffe0c4488068fe678ba9e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movespeed: 3
   playerModelComponent: {fileID: 4509081703905222328}
   abilityUserComponent: {fileID: 306263766370801339}
   projectileSpawnPoint: {fileID: 6860641815155152812}
+--- !u!114 &306263766370801339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572607942090410119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3665019625f2b5541827d1f042ca2fdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectileSpawnPoint: {fileID: 6860641815155152812}
+  projectileSpawnPointLeft: {fileID: 1336242787225293188}
 --- !u!61 &755185946940546618
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -748,7 +751,7 @@ RectTransform:
   - {fileID: 1090031209016412778}
   - {fileID: 7371182972619357950}
   m_Father: {fileID: 572607942090410118}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -816,3 +819,34 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!1 &9194747857200507134
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1336242787225293188}
+  m_Layer: 0
+  m_Name: Projectile Spawn Point Left
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1336242787225293188
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9194747857200507134}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.75, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 572607942090410118}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

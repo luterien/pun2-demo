@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour, IPunObservable, IDamageable
     public PhotonView PhotonView => photonView;
     public PlayerHealth PlayerHealth => playerHealth;
 
+    public float movespeed;
+
     [Header("Dependencies")]
     public PlayerModel playerModelComponent;
     public AbilityUserComponent abilityUserComponent;
@@ -24,6 +26,8 @@ public class PlayerController : MonoBehaviour, IPunObservable, IDamageable
 
     private AbilityAsset RequestedAbility { get; set; }
     private bool abilityRequested;
+
+    public bool FacingRight { get; private set; }
 
     private void Awake()
     {
@@ -51,6 +55,11 @@ public class PlayerController : MonoBehaviour, IPunObservable, IDamageable
         }
 
         inputController.Tick(Time.deltaTime);
+
+        if (inputController.HorizontalAxis != 0f)
+        {
+            FacingRight = inputController.HorizontalAxis > 0f;
+        }
 
         CheckForAbilityUseRequest();
         ApplyMovement();
@@ -91,7 +100,7 @@ public class PlayerController : MonoBehaviour, IPunObservable, IDamageable
 
     private void ApplyMovement()
     {
-        GameSceneController.LocalPlayerInstance.transform.position += inputController.HorizontalAxis * Time.deltaTime * Vector3.right;
+        GameSceneController.LocalPlayerInstance.transform.position += inputController.HorizontalAxis * Time.deltaTime * Vector3.right * movespeed;
     }
 
     public void ApplyDamage(float damage)

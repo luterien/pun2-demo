@@ -23,7 +23,7 @@ public class ProjectileAbility : IAbility
 
         if (effect.TryGetComponent(out IAbilityEffect abilityEffect))
         {
-            abilityEffect.Setup(_playerController, _abilityAsset, Vector3.right);
+            abilityEffect.Setup(_playerController, _abilityAsset, _playerController.FacingRight ? Vector3.right : Vector3.left);
         }
 
         IsComplete = true;

@@ -8,6 +8,7 @@ public class AbilityUserComponent : MonoBehaviour
     public bool HasActiveAbility { get; private set; }
 
     public Transform projectileSpawnPoint;
+    public Transform projectileSpawnPointLeft;
 
     private PlayerController _playerController;
 
@@ -34,7 +35,9 @@ public class AbilityUserComponent : MonoBehaviour
 
     public void UseAbility(AbilityAsset abilityAsset)
     {
-        _ability = abilityAsset.GetAbility(_playerController, projectileSpawnPoint);
+        var projSpawnPoint = _playerController.FacingRight ? projectileSpawnPoint : projectileSpawnPointLeft;
+
+        _ability = abilityAsset.GetAbility(_playerController, projSpawnPoint);
         _ability.OnEnter();
     }
 }
